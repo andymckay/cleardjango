@@ -50,8 +50,8 @@
             
   <div class="section" id="introduction">
 <h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
-<p>Thanks for taking the time to read through this book. Or maybe you are just reading the introduction and then wandering off, let&#8217;s face it the attention span on the web is small. If that is the case, it was nice meeting you.</p>
-<p>Still here, great. First off you are probably asking yourself, another book on Django? There&#8217;s already a lot of those out there. To prove it, I&#8217;ve made <a class="reference external" href="http://djangozen.com/books/">a list</a>. Well the reasons are all personal to me, I like Django and I like writing books. That&#8217;s all there is too it.</p>
+<p>Thanks for taking the time to read through this book. Or maybe you are just reading the introduction and then wandering off.</p>
+<p>Yet another book on Django? There&#8217;s already a lot of those out there. To prove it, I&#8217;ve made <a class="reference external" href="http://djangozen.com/books/">a list</a>. I like Django and I like writing. That&#8217;s all there is too it.</p>
 <p>I do also think that no matter how well documented a project is and how many books there are, there&#8217;s always room for more books. That&#8217;s because people learn in different ways, I&#8217;ve always learned by example.</p>
 <p>Many years ago I had to learn Perl. I&#8217;ve managed to forget most of that now, which is probably good, it allows other things to fit in my brain. There were lots of books I could have read on Perl, but the first one was by Larry Wall himself. As it turns out Larry Wall is not only funny, but a brilliant mind and a great writer. Sadly I found his book impenetrable and got nowhere.</p>
 <p>Then I tried the Perl Cookbook. That just fit my brain beautifully. It showed me how to do things I wanted to know how to do. I don&#8217;t attack a new language by learning the API, I start with a tutorial then leap from one problem to the next. Finally I&#8217;ll sit down and figure out all the bits I missed. But for some reason I have to get my first application up and running and so I can proudly display my creation to the world.</p>
@@ -65,7 +65,7 @@
 <p>Anyway, what does a working Django installation look like? Well the command::</p>
 <div class="highlight-python"><pre>python manage.py start</pre>
 </div>
-<p>should give you something like::</p>
+<p>should give you something like:</p>
 <div class="highlight-python"><pre>Validating models...
 0 errors found
 
@@ -74,10 +74,10 @@ Development server is running at http://127.0.0.1:8000/
 
 Quit the server with CONTROL-C.</pre>
 </div>
-<p>And running::</p>
+<p>And running:</p>
 <div class="highlight-python"><pre>python manage.py shell</pre>
 </div>
-<p>should give you something like::</p>
+<p>should give you something like:</p>
 <div class="highlight-python"><pre>Python 2.5.2 (r252:60911, Jul 31 2008, 17:31:22)
 [GCC 4.2.3 (Ubuntu 4.2.3-2ubuntu7)] on linux2
 Type "help", "copyright", "credits" or "license" for more information.
@@ -91,7 +91,7 @@ Type "help", "copyright", "credits" or "license" for more information.
 <li>How to write HTML.</li>
 <li>How to write bits of JavaScript.</li>
 <li>How the web works, what HTTP is, what a HTTP header is, that the web is stateless and the general inadequacies of the underlying tools and protocols we use to create awesomeness.</li>
-<li>How hard making things pretty across browser is really hard and that if you want a lesson in designing CSS or making things pretty you are in the wrong place.</li>
+<li>How hard making things pretty across browsers is and that if you want a lesson in designing CSS or making things pretty you are in the wrong place.</li>
 </ul>
 <p>That first one is the important one. If you don&#8217;t know how to program in Python, you will be in for a long hard slog. Python is great, go read a good book. It&#8217;s possible just a day or two off in Python land and you&#8217;ll feel comfortable enough to come back here. It might take longer, that&#8217;s fine. Take the time, have a good cup of tea and a long sleep. Maybe a massage. Then come back, it will be easier.</p>
 <p>Next bookmark the following in your browser.</p>
@@ -100,29 +100,17 @@ Type "help", "copyright", "credits" or "license" for more information.
 <li><a class="reference external" href="http://docs.djangoproject.com/en/dev/">Django documentation</a></li>
 <li><a class="reference external" href="http://docs.jquery.com/Main_Page">jQuery documentation (if you want to follow the jQuery sections)</a></li>
 </ul>
-<p>Next make sure you have access to IRC. Probably the most helpful place in the Django community is the irc channel on the freenode.net IRC server. It&#8217;s called #django. Any IRC client will set that up, if you are on a Mac I fully recommend <a class="reference external" href="http://colloquy.info/">Colloquy</a>.</p>
+<p>Lastly, you should try having access to IRC. Probably the most helpful place in the Django community is the irc channel on the freenode.net IRC server. It&#8217;s called #django. Any IRC client will set that up, if you are on a Mac I fully recommend <a class="reference external" href="http://colloquy.info/">Colloquy</a>.</p>
 <p>There are always people on IRC who are helpful, but it like most places it can take time to learn how to use IRC if you are unfamiliar. Read the topic on the channel once you join and try to ask specific questions rather than general ones. Be prepared to paste errors and tracebacks in to a website, doing it in the channel is rude.</p>
-<p>Make sure that you have <a class="reference external" href="http://www.mozilla.com/en-US/firefox/firefox.html">Firefox</a> handy and that <a class="reference external" href="http://getfirebug.com/">Firebug</a> extension installed.</p>
-<p>Install <a class="reference external" href="http://subversion.tigris.org/">Subversion</a>. Other source code systems are available and I&#8217;m sure lots of people will expend lots of energy telling me distributed source code systems will save the planet. My code is in SVN so live with it. If you haven&#8217;t experienced the joys that SVN can give you and don&#8217;t want to, then it is available as a zip file too.</p>
 </div>
 <div class="section" id="editors">
 <h2>Editors<a class="headerlink" href="#editors" title="Permalink to this headline">¶</a></h2>
-<p>I haven&#8217;t mentioned text editor&#8217;s or IDE&#8217;s. That&#8217;s because I just use <a class="reference external" href="http://macromates.com/">Textmate</a> and vim. But the latter is mostly just to annoy emacs users. I feel uncomfortable recommending an IDE I don&#8217;t use and I think it&#8217;s a very personal thing. I know in other big frameworks starting with J or (curiously) a period, setting up the IDE is one of the first things you do. Open source projects tend not to do that as much. I would recommend my editors, but emacs is cool, so is WingIDE, Komodo and Eclipse. Notepad on the other hand doesn&#8217;t count. Neither does Microsoft Word.</p>
-<p>So rather than talk about how you should work, I&#8217;ll tell you how I work.</p>
-<ul class="simple">
-<li>I use a gorgeous Mac Pro that runs OS X. And I love it all dearly.</li>
-<li>I use Textmate as my editor, as previously noted.</li>
-<li>All my development is done in virtual machines running Ubuntu. When I want to do a new project, I create a new virtual machine off a base image, that has configuration of SVN, ssh keys and the like on it.</li>
-<li>I then use MacFusion to mount the virtual machine using SSHFS.</li>
-<li>Then my text editor is able to edit the Django project as if it was local.</li>
-<li>I can still work in complete isolation on the virtual machine without affecting anything else.</li>
-</ul>
-<p>This gives me all the power and advantages of OS X when I need it and Ubuntu where I need it the most. Installing packages that Python or Postgres needs is easy. With this in hand it&#8217;s easy to create and maintain new projects. How you work is probably different, tell us about it on your blog. If you don&#8217;t have one yet, a few days with Django will soon solve that.</p>
+<p>I haven&#8217;t mentioned text editor&#8217;s or IDE&#8217;s. That&#8217;s because I just use <a class="reference external" href="http://www.activestate.com">Komodo</a> and vim. But the latter is mostly just to annoy emacs users. I feel uncomfortable recommending an IDE I don&#8217;t use and I think it&#8217;s a very personal thing. I know in other big frameworks starting with J or (curiously) a period, setting up the IDE is one of the first things you do. Open source projects tend not to do that as much. I would recommend my editors, but emacs is cool, so is WingIDE, Komodo and Eclipse. Notepad on the other hand doesn&#8217;t count. Neither does Microsoft Word.</p>
 </div>
 <div class="section" id="how-the-book-works">
 <h2>How the book works<a class="headerlink" href="#how-the-book-works" title="Permalink to this headline">¶</a></h2>
-<p>Each recipe has the same structure, the problem, some code, some dissection of the code and then some suggested further readings. It&#8217;s pretty straightforward. Where possible I&#8217;ve included some form of tests to make sure that the recipe works and always will work.</p>
-<p>Please don&#8217;t go typing too much code in yourself (unless you really want to), all the code is available from SVN. In the next part, we&#8217;ll discuss how to do this.</p>
+<p>Each recipe has the same structure: the problem, some code, some dissection of the code and then some suggested further readings. It&#8217;s pretty straightforward. Where possible I&#8217;ve included some form of tests to make sure that the recipe works and always will work.</p>
+<p>Please don&#8217;t go typing too much code in yourself (unless you really want to), all the code is available. In the next part, we&#8217;ll discuss how to do this.</p>
 </div>
 <div class="section" id="comments-and-feedback">
 <h2>Comments and feedback<a class="headerlink" href="#comments-and-feedback" title="Permalink to this headline">¶</a></h2>

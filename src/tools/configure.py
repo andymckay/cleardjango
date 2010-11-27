@@ -59,9 +59,14 @@ def test(recipes, options={}):
     
     for recipe in recipes:    
         iapps.append("%s" % recipe)
-        settings.ROOT_URLCONF = "%s.urls" % recipe
     
     for recipe in recipes:
+        obj = __import__("%s" % recipe, globals(), locals(), ["urls",])
+        if hasattr(obj, "urls"):
+            settings.ROOT_URLCONF = "%s.urls" % recipe
+        else:
+            settings.ROOT_URLCONF = "urls"
+        
         obj = __import__("%s" % recipe, globals(), locals(), ["settings_extra",])
         if hasattr(obj, "settings_extra"):
             for k, v in obj.settings_extra.items():
@@ -72,8 +77,6 @@ def test(recipes, options={}):
                 else:
                     setattr(settings, k, v)
     
-    print "*" * 40
-    print iapps
     settings.INSTALLED_APPS = iapps
 
     connection.creation.create_test_db(verbosity, autoclobber=not interactive)

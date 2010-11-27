@@ -26,8 +26,8 @@ If you visit the site at it's root, for example: http://localhost/, then you wil
 
 The key changes here are:
 
-1. We've created a view to process the request
-2. We've changed the urls to use that view
+1. Created a view to process the request.
+2. Changed the urls to use that view.
 
 So with that in mind, let's hope over to databases.
 

@@ -4,5 +4,5 @@ class Todo(models.Model):
     pass
     
     class Meta:
-        app_label = "recipe_02"
+        app_label = "recipe_03"
     

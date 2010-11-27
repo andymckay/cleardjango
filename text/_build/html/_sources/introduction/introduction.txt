@@ -1,9 +1,9 @@
 Introduction
 --------------------------------------------------------------
 
-Thanks for taking the time to read through this book. Or maybe you are just reading the introduction and then wandering off, let's face it the attention span on the web is small. If that is the case, it was nice meeting you.
+Thanks for taking the time to read through this book. Or maybe you are just reading the introduction and then wandering off.
 
-Still here, great. First off you are probably asking yourself, another book on Django? There's already a lot of those out there. To prove it, I've made `a list  <http://djangozen.com/books/>`_. Well the reasons are all personal to me, I like Django and I like writing books. That's all there is too it.
+Yet another book on Django? There's already a lot of those out there. To prove it, I've made `a list  <http://djangozen.com/books/>`_. I like Django and I like writing. That's all there is too it.
 
 I do also think that no matter how well documented a project is and how many books there are, there's always room for more books. That's because people learn in different ways, I've always learned by example. 
 
@@ -28,7 +28,7 @@ Anyway, what does a working Django installation look like? Well the command:::
 
     python manage.py start
     
-should give you something like:::
+should give you something like::
 
     Validating models...
     0 errors found
@@ -38,11 +38,11 @@ should give you something like:::
 
     Quit the server with CONTROL-C.
 
-And running:::
+And running::
 
     python manage.py shell
     
-should give you something like:::
+should give you something like::
 
     Python 2.5.2 (r252:60911, Jul 31 2008, 17:31:22) 
     [GCC 4.2.3 (Ubuntu 4.2.3-2ubuntu7)] on linux2
@@ -58,7 +58,7 @@ Django is a framework for web developers. So it's assumed that you know:
 * How to write HTML.
 * How to write bits of JavaScript.
 * How the web works, what HTTP is, what a HTTP header is, that the web is stateless and the general inadequacies of the underlying tools and protocols we use to create awesomeness.
-* How hard making things pretty across browser is really hard and that if you want a lesson in designing CSS or making things pretty you are in the wrong place.
+* How hard making things pretty across browsers is and that if you want a lesson in designing CSS or making things pretty you are in the wrong place.
 
 That first one is the important one. If you don't know how to program in Python, you will be in for a long hard slog. Python is great, go read a good book. It's possible just a day or two off in Python land and you'll feel comfortable enough to come back here. It might take longer, that's fine. Take the time, have a good cup of tea and a long sleep. Maybe a massage. Then come back, it will be easier.
 
@@ -68,36 +68,21 @@ Next bookmark the following in your browser.
 * `Django documentation <http://docs.djangoproject.com/en/dev/>`_
 * `jQuery documentation (if you want to follow the jQuery sections) <http://docs.jquery.com/Main_Page>`_
 
-Next make sure you have access to IRC. Probably the most helpful place in the Django community is the irc channel on the freenode.net IRC server. It's called #django. Any IRC client will set that up, if you are on a Mac I fully recommend `Colloquy <http://colloquy.info/>`_.
+Lastly, you should try having access to IRC. Probably the most helpful place in the Django community is the irc channel on the freenode.net IRC server. It's called #django. Any IRC client will set that up, if you are on a Mac I fully recommend `Colloquy <http://colloquy.info/>`_.
 
 There are always people on IRC who are helpful, but it like most places it can take time to learn how to use IRC if you are unfamiliar. Read the topic on the channel once you join and try to ask specific questions rather than general ones. Be prepared to paste errors and tracebacks in to a website, doing it in the channel is rude.
-
-Make sure that you have `Firefox <http://www.mozilla.com/en-US/firefox/firefox.html>`_ handy and that `Firebug <http://getfirebug.com/>`_ extension installed.
-
-Install `Subversion <http://subversion.tigris.org/>`_. Other source code systems are available and I'm sure lots of people will expend lots of energy telling me distributed source code systems will save the planet. My code is in SVN so live with it. If you haven't experienced the joys that SVN can give you and don't want to, then it is available as a zip file too.
 
 Editors
 =========================================
 
-I haven't mentioned text editor's or IDE's. That's because I just use `Textmate <http://macromates.com/>`_ and vim. But the latter is mostly just to annoy emacs users. I feel uncomfortable recommending an IDE I don't use and I think it's a very personal thing. I know in other big frameworks starting with J or (curiously) a period, setting up the IDE is one of the first things you do. Open source projects tend not to do that as much. I would recommend my editors, but emacs is cool, so is WingIDE, Komodo and Eclipse. Notepad on the other hand doesn't count. Neither does Microsoft Word.
-
-So rather than talk about how you should work, I'll tell you how I work.
-
-* I use a gorgeous Mac Pro that runs OS X. And I love it all dearly.
-* I use Textmate as my editor, as previously noted.
-* All my development is done in virtual machines running Ubuntu. When I want to do a new project, I create a new virtual machine off a base image, that has configuration of SVN, ssh keys and the like on it.
-* I then use MacFusion to mount the virtual machine using SSHFS.
-* Then my text editor is able to edit the Django project as if it was local.
-* I can still work in complete isolation on the virtual machine without affecting anything else.
-
-This gives me all the power and advantages of OS X when I need it and Ubuntu where I need it the most. Installing packages that Python or Postgres needs is easy. With this in hand it's easy to create and maintain new projects. How you work is probably different, tell us about it on your blog. If you don't have one yet, a few days with Django will soon solve that.
+I haven't mentioned text editor's or IDE's. That's because I just use `Komodo <http://www.activestate.com>`_ and vim. But the latter is mostly just to annoy emacs users. I feel uncomfortable recommending an IDE I don't use and I think it's a very personal thing. I know in other big frameworks starting with J or (curiously) a period, setting up the IDE is one of the first things you do. Open source projects tend not to do that as much. I would recommend my editors, but emacs is cool, so is WingIDE, Komodo and Eclipse. Notepad on the other hand doesn't count. Neither does Microsoft Word.
 
 How the book works
 ===============================================================
 
-Each recipe has the same structure, the problem, some code, some dissection of the code and then some suggested further readings. It's pretty straightforward. Where possible I've included some form of tests to make sure that the recipe works and always will work.
+Each recipe has the same structure: the problem, some code, some dissection of the code and then some suggested further readings. It's pretty straightforward. Where possible I've included some form of tests to make sure that the recipe works and always will work.
 
-Please don't go typing too much code in yourself (unless you really want to), all the code is available from SVN. In the next part, we'll discuss how to do this.
+Please don't go typing too much code in yourself (unless you really want to), all the code is available. In the next part, we'll discuss how to do this.
 
 Comments and feedback
 ===============================================================

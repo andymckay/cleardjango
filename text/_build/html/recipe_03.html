@@ -54,8 +54,8 @@
 <p class="topic-title first">Recipe 3</p>
 <p>Run: <tt class="docutils literal"><span class="pre">python</span> <span class="pre">tools/configure.py</span> <span class="pre">-s</span> <span class="pre">3</span></tt> to install and run this recipe.</p>
 </div>
-<p>Of course writing something that returns a bit of Python to the user is all very well, but really we need something that reads and writes to a database. For this Django has models. Models are classes in Python that explicitly declare what data is persisted to the database.</p>
-<p>A model lives in a <em>models.py</em> file <a class="footnote-reference" href="#f1" id="id1">[1]</a>. It inherits from <em>django.db.models</em> and will look something like this:</p>
+<p>Next, let&#8217;s talk to a database. For this Django has models. Models are classes in Python that explicitly declare what data is persisted to the database.</p>
+<p>A model lives in a <em>models.py</em> file <a class="footnote-reference" href="#f1" id="id1">[1]</a>. It inherits from <em>django.db.models</em>. Here is an exmample:</p>
 <div class="highlight-python"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
 3
@@ -65,9 +65,9 @@
     <span class="k">pass</span>
 </pre></div>
 </td></tr></table></div>
-<p>The name of this model is called <em>Todo</em> and it has no fields at this time. This means it doesn&#8217;t have any custom data it. Perhaps &#8220;Chocolate Teapot&#8221; <a class="footnote-reference" href="#f2" id="id2">[2]</a> would be a more useful name for this model.</p>
-<p>When you install this model, either via the recipe command or via syncdb, Django will create a table called <em>recipe_03_todo</em>. There&#8217;s no need to write any SQL to create tables or columns, Django has done all that for you. There are two easy ways to easy what Django has done for you from the <em>manage.py</em> command. A very useful command is sqlall which shows you the SQL that was used to create the tables.</p>
-<p>For this recipe it looks like this:</p>
+<p>The name of this model is called <em>Todo</em> and it has no fields at this time. This means it doesn&#8217;t have any custom data in it.</p>
+<p>When you install this model, either via the recipe command or via <em>syncdb</em> <a class="footnote-reference" href="#f2" id="id2">[2]</a>, Django will create a table called <em>recipe_03_todo</em>. There&#8217;s no need to write any SQL to create tables or columns, Django has done all that for you.</p>
+<p>One way to see what SQL Django will create for you is the <em>manage.py</em> <em>sqlall</em> <a class="footnote-reference" href="#f3" id="id3">[3]</a> command. For this recipe it looks like this:</p>
 <div class="highlight-sql"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
 3
@@ -81,8 +81,12 @@
 <span class="k">COMMIT</span><span class="p">;</span>
 </pre></div>
 </td></tr></table></div>
-<p>You&#8217;ll note that it has created and <em>id</em> column for you. This is the primary key for the table. It doesn&#8217;t have to be <em>id</em>, but if you don&#8217;t specify it on a field Django will add it in for you <a class="footnote-reference" href="#f3" id="id3">[3]</a>.</p>
-<p>This then is the simplest model you can have. Next we&#8217;ll add in some fields.</p>
+<p>You&#8217;ll note that it has created and <em>id</em> column for you. This is the primary key for the table. It doesn&#8217;t have to be <em>id</em>, but if you don&#8217;t specify it on a field Django will add it in for you <a class="footnote-reference" href="#f4" id="id4">[4]</a>.</p>
+<p>In this recipe we&#8217;ve:</p>
+<ol class="arabic simple">
+<li>Created a simple model and some tables in the database.</li>
+</ol>
+<p>At this point nothing is visible in the browser, we haven&#8217;t hooked anything up.</p>
 <table class="docutils footnote" frame="void" id="f1" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
@@ -92,13 +96,19 @@
 <table class="docutils footnote" frame="void" id="f2" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id2">[2]</a></td><td>If you are not British, you might need to Google this term.</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id2">[2]</a></td><td><a class="reference external" href="http://docs.djangoproject.com/en/dev/ref/django-admin/#syncdb">http://docs.djangoproject.com/en/dev/ref/django-admin/#syncdb</a></td></tr>
 </tbody>
 </table>
 <table class="docutils footnote" frame="void" id="f3" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id3">[3]</a></td><td><a class="reference external" href="http://docs.djangoproject.com/en/dev/ref/models/fields/#primary-key">http://docs.djangoproject.com/en/dev/ref/models/fields/#primary-key</a></td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id3">[3]</a></td><td><a class="reference external" href="http://docs.djangoproject.com/en/dev/ref/django-admin/#sqlall">http://docs.djangoproject.com/en/dev/ref/django-admin/#sqlall</a></td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="f4" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id4">[4]</a></td><td><a class="reference external" href="http://docs.djangoproject.com/en/dev/ref/models/fields/#primary-key">http://docs.djangoproject.com/en/dev/ref/models/fields/#primary-key</a></td></tr>
 </tbody>
 </table>
 </div>

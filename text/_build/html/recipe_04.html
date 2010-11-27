@@ -58,7 +58,7 @@
 <ul class="simple">
 <li><em>text</em> some details about the todo item eg: &#8220;Go get milk&#8221;</li>
 <li><em>completed</em> a Yes/No flag to see if the todo has been completed</li>
-<li><em>timestamp</em> a timestamp for when the model has been completed</li>
+<li><em>timestamp</em> a timestamp for when the todo has been completed</li>
 </ul>
 <p>This would change the model to look like the following:</p>
 <div class="highlight-python"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
@@ -74,7 +74,7 @@
     <span class="n">timestamp</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">()</span>
 </pre></div>
 </td></tr></table></div>
-<p>There&#8217;s lots of fields available to you and the full reference of them can be found online <a class="footnote-reference" href="#f1" id="id1">[1]</a>. It would be fantastically boring to relist them all here, so I won&#8217;t bother. But basically you can see we have <em>CharField</em>, a <em>BooleanField</em> and a <em>DateTimeField</em> which all correspond to the data.</p>
+<p>There&#8217;s lots of fields available to you and the full reference of them can be found online <a class="footnote-reference" href="#f1" id="id1">[1]</a>. It would be fantastically boring to relist them all here, so I won&#8217;t bother. But basically you can see we have <em>CharField</em>, a <em>BooleanField</em> and a <em>DateTimeField</em> which all correspond to the data required.</p>
 <p>If you reinstall this recipe and use the <em>sqlall</em> command, you can see the SQL that gets created <a class="footnote-reference" href="#f2" id="id2">[2]</a>:</p>
 <div class="highlight-sql"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
@@ -95,7 +95,13 @@
 <span class="k">COMMIT</span><span class="p">;</span>
 </pre></div>
 </td></tr></table></div>
-<p>So we&#8217;ve got a model, how do we create a record in the database of this? It&#8217;s pretty simple, create an instance of the class, assign values to the fields and then call the save method on the class. For example:</p>
+<p>So we&#8217;ve got a model, how do we create a record in the database of this?</p>
+<ol class="arabic simple">
+<li>Create an instance of the class.</li>
+<li>Assign values to the fields.</li>
+<li>Call save method on the class.</li>
+</ol>
+<p>For example:</p>
 <div class="highlight-python"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
 3
@@ -109,8 +115,9 @@
 <span class="n">todo</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
 </pre></div>
 </td></tr></table></div>
-<p>You&#8217;ll see that the assignment of values to the object matches the fields. If the field is called &#8220;text&#8221; then you assign to text (as per line 2). At the end calling save performs all the necessary SQL inserts into the database.</p>
-<p>In this model, we&#8217;ve set a default value for <em>completed</em> to be False. By default when you create a todo item, it won&#8217;t be completed. So in the above piece of code, we didn&#8217;t bother setting the value for <em>completed</em>. But we did set one for <em>timestamp</em>, what happens if you don&#8217;t for example:</p>
+<p>The assignment of values to the object matches the fields. If the field is called <em>text</em> then you assign to <em>text</em> (line 4). Calling save performs all the necessary SQL inserts into the database.</p>
+<p>In this model, we&#8217;ve set a default value for <em>completed</em> to be <em>False</em>. So we didn&#8217;t bother assigning the value for <em>completed</em>.</p>
+<p>But we did set one for <em>timestamp</em> <a class="footnote-reference" href="#f3" id="id3">[3]</a>. This is a required field and if you don&#8217;t assign it, for example:</p>
 <div class="highlight-python"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
 3</pre></div></td><td class="code"><div class="highlight"><pre><span class="n">todo</span> <span class="o">=</span> <span class="n">Todo</span><span class="p">()</span>
@@ -123,7 +130,8 @@
     return Database.Cursor.execute(self, query, params)
 IntegrityError: recipe_04_todo.timestamp may not be NULL</pre>
 </div>
-<p>If at this point some of these concepts like creating objects are feeling a bit rusty, now is a good time to read up on Python. Django has done it&#8217;s best to be like Python as much as it can so it really pays to learn that. Besides I&#8217;m not going to spell it out much since a) I&#8217;m lazy and b) this isn&#8217;t a book about Python.</p>
+<p>If at this point some of these concepts like creating objects are feeling a bit rusty, now is a good time to read up on Python.</p>
+<p>At this point nothing is visible in the browser, we haven&#8217;t hooked anything up.</p>
 <table class="docutils footnote" frame="void" id="f1" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
@@ -133,7 +141,13 @@ IntegrityError: recipe_04_todo.timestamp may not be NULL</pre>
 <table class="docutils footnote" frame="void" id="f2" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id2">[2]</a></td><td>Last time I&#8217;ll do this for a while, you&#8217;ve got the idea now?</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id2">[2]</a></td><td>We won&#8217;t be doing this every time.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="f3" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id3">[3]</a></td><td><a class="reference external" href="http://docs.python.org/library/datetime.html#module-datetime">http://docs.python.org/library/datetime.html#module-datetime</a></td></tr>
 </tbody>
 </table>
 </div>
