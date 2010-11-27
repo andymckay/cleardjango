@@ -1,0 +1,5 @@
+This model is a rip off from Pro Django by Marty Alchin Chapter 11
+and I should ask if that's ok. But go buy it and that will
+make him happy, its a good book.
+
+http://prodjango.com/

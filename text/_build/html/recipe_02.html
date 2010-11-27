@@ -1,0 +1,150 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Recipe 2: Hello World via Python &mdash; Clear Django v1.0 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '1.0',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Clear Django v1.0 documentation" href="index.html" />
+    <link rel="next" title="Recipe 3: A first model" href="recipe_03.html" />
+    <link rel="prev" title="Recipe 1: Hello World" href="recipe_01.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="recipe_03.html" title="Recipe 3: A first model"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="recipe_01.html" title="Recipe 1: Hello World"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Clear Django v1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="recipe-2-hello-world-via-python">
+<h1>Recipe 2: Hello World via Python<a class="headerlink" href="#recipe-2-hello-world-via-python" title="Permalink to this headline">¶</a></h1>
+<div class="topic">
+<p class="topic-title first">Recipe 2</p>
+<p>Run: <tt class="docutils literal"><span class="pre">python</span> <span class="pre">tools/configure.py</span> <span class="pre">-s</span> <span class="pre">2</span></tt> to install and run this recipe.</p>
+</div>
+<p>Recipe 1 was pretty simple and didn&#8217;t have any real opportunity for dynamic content. It went straight from a request to a
+very simple HTML template. Let&#8217;s expand that a little by taking the request, doing some Python processing and return something dynamic.</p>
+<p>The first step of this is to put in a <em>view</em>. A <em>view</em> is just Django&#8217;s name for a Python callable that takes a request object and outputs a response that will be passed back to the web server. First we need to create a view:</p>
+<div class="highlight-python"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4</pre></div></td><td class="code"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">django.shortcuts</span> <span class="kn">import</span> <span class="n">render_to_response</span>
+
+<span class="k">def</span> <span class="nf">hello_world</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">render_to_response</span><span class="p">(</span><span class="s">&quot;hello.html&quot;</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+<p>This view is very simple. All views are passed at least one parameter, request, this encapsulates data about the request that the web server has received. We then use a django shortcut module method <a class="footnote-reference" href="#f1" id="id1">[1]</a> called render_to_response. This method takes a template name and when executed will find the template, execute it and return the result back to the browser.</p>
+<p>The final change is to our view, we are no longer pointing the URL to the template via a generic view as we did in recipe 1, but rather pointing at a view. Our urls.py is now changed too:</p>
+<div class="highlight-python"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5</pre></div></td><td class="code"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">django.conf.urls.defaults</span> <span class="kn">import</span> <span class="n">patterns</span>
+
+<span class="n">urlpatterns</span> <span class="o">=</span> <span class="n">patterns</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">,</span>
+    <span class="p">(</span><span class="s">r&#39;^$&#39;</span><span class="p">,</span> <span class="s">&#39;recipe_02.views.hello_world&#39;</span><span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+<p>If you visit the site at it&#8217;s root, for example: <a class="reference external" href="http://localhost/">http://localhost/</a>, then you will get the following page:</p>
+<div class="highlight-python"><pre>Hello, world!</pre>
+</div>
+<p>The key changes here are:</p>
+<ol class="arabic simple">
+<li>We&#8217;ve created a view to process the request</li>
+<li>We&#8217;ve changed the urls to use that view</li>
+</ol>
+<p>So with that in mind, let&#8217;s hope over to databases.</p>
+<table class="docutils footnote" frame="void" id="f1" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td><a class="reference external" href="http://docs.djangoproject.com/en/dev/topics/http/shortcuts/">http://docs.djangoproject.com/en/dev/topics/http/shortcuts/</a></td></tr>
+</tbody>
+</table>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="recipe_01.html"
+                                  title="previous chapter">Recipe 1: Hello World</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="recipe_03.html"
+                                  title="next chapter">Recipe 3: A first model</a></p>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="_sources/recipe_02.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="recipe_03.html" title="Recipe 3: A first model"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="recipe_01.html" title="Recipe 1: Hello World"
+             >previous</a> |</li>
+        <li><a href="index.html">Clear Django v1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2009, Andy McKay.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.3.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,140 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Recipe 1: Hello World &mdash; Clear Django v1.0 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '1.0',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Clear Django v1.0 documentation" href="index.html" />
+    <link rel="next" title="Recipe 2: Hello World via Python" href="recipe_02.html" />
+    <link rel="prev" title="Source" href="introduction/code.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="recipe_02.html" title="Recipe 2: Hello World via Python"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="introduction/code.html" title="Source"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Clear Django v1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="recipe-1-hello-world">
+<h1>Recipe 1: Hello World<a class="headerlink" href="#recipe-1-hello-world" title="Permalink to this headline">¶</a></h1>
+<div class="topic">
+<p class="topic-title first">Recipe 1</p>
+<p>Run: <tt class="docutils literal"><span class="pre">python</span> <span class="pre">tools/configure.py</span> <span class="pre">-s</span> <span class="pre">1</span></tt> to install and run this recipe.</p>
+</div>
+<p>Here&#8217;s the simplest recipe in the web server world. Printing out &#8220;Hello, world!&#8221; in the web browser to the visiting user. This can be accomplished in several ways. First the template is written:</p>
+<div class="highlight-python"><pre>Hello, world!</pre>
+</div>
+<p>This contains no fancy templating language or code at all, although Django does have a templating language plain text will do. At the moment this just contains the text we want the user to see.</p>
+<p>Some web site systems like PHP, allow the server to follow the file structure of your site and render pages in a certain manner. So you might just point the server to hello.html. Django does not do this - instead requiring you to map a URL to a script. There are lots of cunning ways to do this, but the most common way is to explicitly map each incoming URL.</p>
+<p>The following file contains some code that might look worrying, but simply put on line 4 it maps the root of the site to the template &#8220;hello.html&#8221; constructed earlier in this recipe.</p>
+<div class="highlight-python"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5</pre></div></td><td class="code"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">django.conf.urls.defaults</span> <span class="kn">import</span> <span class="n">patterns</span>
+
+<span class="n">urlpatterns</span> <span class="o">=</span> <span class="n">patterns</span><span class="p">(</span><span class="s">&#39;django.views.generic.simple&#39;</span><span class="p">,</span>
+    <span class="p">(</span><span class="s">r&#39;^$&#39;</span><span class="p">,</span> <span class="s">&#39;direct_to_template&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;template&#39;</span><span class="p">:</span><span class="s">&#39;hello.html&#39;</span><span class="p">})</span>
+<span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+<p>If you visit the site at it&#8217;s root, for example: <a class="reference external" href="http://localhost/">http://localhost/</a> <a class="footnote-reference" href="#f1" id="id1">[1]</a>, then you will get the following page:</p>
+<div class="highlight-python"><pre>Hello, world!</pre>
+</div>
+<ol class="arabic simple">
+<li>URL mapping</li>
+<li>Generic views</li>
+</ol>
+<table class="docutils footnote" frame="void" id="f1" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td>This is the first time you&#8217;ve visited the URL in a browser, for this to work you would need Django running and listening on whatever localhost is. This is discussed in the setup section, so if you&#8217;ve skipped ahead to this point and that doesn&#8217;t work, maybe time to take a step back.</td></tr>
+</tbody>
+</table>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="introduction/code.html"
+                                  title="previous chapter">Source</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="recipe_02.html"
+                                  title="next chapter">Recipe 2: Hello World via Python</a></p>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="_sources/recipe_01.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="recipe_02.html" title="Recipe 2: Hello World via Python"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="introduction/code.html" title="Source"
+             >previous</a> |</li>
+        <li><a href="index.html">Clear Django v1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2009, Andy McKay.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.3.
+    </div>
+  </body>
+</html>

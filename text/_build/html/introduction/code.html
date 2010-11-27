@@ -1,0 +1,144 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Source &mdash; Clear Django v1.0 documentation</title>
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Clear Django v1.0 documentation" href="../index.html" />
+    <link rel="next" title="Recipe 1: Hello World" href="../recipe_01.html" />
+    <link rel="prev" title="Introduction" href="introduction.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../recipe_01.html" title="Recipe 1: Hello World"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="introduction.html" title="Introduction"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Clear Django v1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="source">
+<h1>Source<a class="headerlink" href="#source" title="Permalink to this headline">¶</a></h1>
+<p>All the source for the book is available at the following URL:</p>
+<div class="highlight-python"><pre>http://code.google.com/p/cleardjango/source/browse/#svn/trunk/src</pre>
+</div>
+<p>To check it out, run the following command:</p>
+<div class="highlight-python"><pre>svn checkout https://cleardjango.googlecode.com/svn/trunk/src</pre>
+</div>
+<p>This requires a working installation of <a class="reference external" href="http://subversion.tigris.org/">Subversion</a>.</p>
+<p>If you are on Windows, the command should work in something like Tortoise SVN. But it is worth noting that pretty much all the examples in this book require the command line to get out of SVN and then run. So you might want to take the time to learn how to do these things from the command line.</p>
+<p>The code takes the format of one big Django project. Inside the project, each chapter contains recipes. Those recipes are applications. These terms might not make sense at the moment, but what it does mean is that for each recipe you can: install, configure the database, run the tests and then see the result all in one line of code. No messing about writing out code or anything.</p>
+<p>Recipes are accesssed by their recipe number, so for example Recipe 3 will be at src/recipe_03. To run one of these recipes you would use the tools/configure.py command, for example:</p>
+<div class="highlight-python"><pre>andy@base:~/src$ python tools/configure.py --start 3
+No DJANGO_SETTINGS_MODULE is set, found a settings.py and using that.
+If that is incorrect please specific a DJANGO_SETTINGS_MODULE.
+
+Creating test database...
+Creating table auth_permission
+Creating table auth_group
+Creating table auth_user
+Creating table auth_message
+Creating table django_content_type
+Creating table django_session
+Creating table django_site
+Creating table recipe_03_todo
+Installing index for auth.Permission model
+Installing index for auth.Message model
+....
+----------------------------------------------------------------------
+Ran 4 tests in 0.050s
+
+OK
+Validating models...
+0 errors found
+
+Django version 1.1 beta 1, using settings 'settings'
+Development server is running at http://0.0.0.0:8000/
+Quit the server with CONTROL-C.</pre>
+</div>
+<p>This is good, it means the recipe was installed successfully and the server is now running on port 8000 and ready for use.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="introduction.html"
+                                  title="previous chapter">Introduction</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="../recipe_01.html"
+                                  title="next chapter">Recipe 1: Hello World</a></p>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="../_sources/introduction/code.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="../search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../recipe_01.html" title="Recipe 1: Hello World"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="introduction.html" title="Introduction"
+             >previous</a> |</li>
+        <li><a href="../index.html">Clear Django v1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2009, Andy McKay.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.3.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,185 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>How to: Adding Javascript inlines outside of the admin interface &mdash; Clear Django v1.0 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '1.0',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Clear Django v1.0 documentation" href="index.html" />
+    <link rel="prev" title="How to: Adding Javascript to the inline fields" href="recipe_71.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="recipe_71.html" title="How to: Adding Javascript to the inline fields"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Clear Django v1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="how-to-adding-javascript-inlines-outside-of-the-admin-interface">
+<h1>How to: Adding Javascript inlines outside of the admin interface<a class="headerlink" href="#how-to-adding-javascript-inlines-outside-of-the-admin-interface" title="Permalink to this headline">¶</a></h1>
+<div class="topic">
+<p class="topic-title first">Recipe 72</p>
+<p>Run: <tt class="docutils literal"><span class="pre">python</span> <span class="pre">tools/configure.py</span> <span class="pre">-s</span> <span class="pre">72</span></tt> to install and run this recipe.</p>
+</div>
+<div class="sidebar">
+<p class="first sidebar-title">Sponsored Recipe</p>
+<p class="last">This recipe was sponsored by <a class="reference external" href="http://www.bluefountain.com/">Blue Fountain Systems Ltd</a>. Please contact <a class="reference external" href="http://www.clearwind.ca">Clearwind</a> if you&#8217;d like to sponsor a recipe.</p>
+</div>
+<p>In the last two recipes, we&#8217;ve seen how to add inlines through the admin interface. We&#8217;ll repeat this process in this last recipe of the series but without the admin interface. This uses some different API&#8217;s and therefore can be slightly different. Again, we&#8217;ll show a quick snippet of the end result:</p>
+<img alt="_images/recipe_72.jpg" src="_images/recipe_72.jpg" />
+<p>The models have remain unchanged since recipe 70. The forms for this setup will also be similar to recipe 70. We&#8217;ll just need to add in one new form - the Recipe form. This is a basic Django ModelForm:</p>
+<div class="highlight-python"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13</pre></div></td><td class="code"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">django</span> <span class="kn">import</span> <span class="n">forms</span>
+
+<span class="kn">from</span> <span class="nn">recipe_72.models</span> <span class="kn">import</span> <span class="n">Recipe</span>
+
+<span class="k">class</span> <span class="nc">RecipeForm</span><span class="p">(</span><span class="n">forms</span><span class="o">.</span><span class="n">ModelForm</span><span class="p">):</span>
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">Recipe</span>
+
+<span class="k">def</span> <span class="nf">ingredient_form_callback</span><span class="p">(</span><span class="n">instance</span><span class="p">,</span> <span class="n">field</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">field</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s">&quot;other_recipe&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">instance</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">field</span><span class="o">.</span><span class="n">formfield</span><span class="p">(</span><span class="n">queryset</span><span class="o">=</span><span class="n">Recipe</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">exclude</span><span class="p">(</span><span class="n">pk</span><span class="o">=</span><span class="n">instance</span><span class="o">.</span><span class="n">pk</span><span class="p">),</span> <span class="o">**</span><span class="n">kw</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">field</span><span class="o">.</span><span class="n">formfield</span><span class="p">(</span><span class="o">**</span><span class="n">kw</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+<p>We&#8217;ll set up two URLs for this recipe, one to add and one to add:</p>
+<div class="highlight-python"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">class</span> <span class="nc">RecipeForm</span><span class="p">(</span><span class="n">forms</span><span class="o">.</span><span class="n">ModelForm</span><span class="p">):</span>
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">Recipe</span>
+</pre></div>
+</td></tr></table></div>
+<p>The add template is pretty straightforward. We are going to assume that the view is passing a form (the Recipe form) and a formset (the Ingredient formset) to the template. Notice in the template that I&#8217;ve used the same classes from the admin in order to make the Javascript a little bit easier. Each formset is also rendered in its own table. This makes for a slightly ugly markup but it works.</p>
+<div class="highlight-python"><pre>                  {{ formsets.management_form }}
+                  {% for formset in formsets.forms %}
+                  &lt;table&gt;
+                      {{ formset }}
+                  &lt;/table&gt;
+                  {% endfor %}
+</pre>
+</div>
+<p>When rendering a formset manually in this manner, we also need to include the management form (line 1). This form is the value that gets incremented every time <em>Add another row</em> is pressed <a class="footnote-reference" href="#f1" id="id1">[1]</a>. The JavaScript is very similar to the one from recipe 72 with a few minor alterations. Since we now have control over the template, the button is rendered in the template not the JavaScript.</p>
+<p>Those are all the elements. Now we need to take a look at the main part of this recipe, the views. I covered how to use the <em>formfield_callback</em> and <em>curry</em> to process the field correctly in recipe 70 . We&#8217;ll repeat this process in our view. The admin won&#8217;t be constructing the formset for us this time. We&#8217;ll have to construct it using an <em>inlineformset_factory</em> <a class="footnote-reference" href="#f2" id="id2">[2]</a>:</p>
+<div class="highlight-python"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td><td class="code"><div class="highlight"><pre>    <span class="n">IngredientFormSet</span> <span class="o">=</span> <span class="n">inlineformset_factory</span><span class="p">(</span><span class="n">Recipe</span><span class="p">,</span> <span class="n">Ingredient</span><span class="p">,</span> 
+                <span class="n">fk_name</span><span class="o">=</span><span class="s">&quot;recipe&quot;</span><span class="p">,</span> 
+                <span class="n">formfield_callback</span><span class="o">=</span><span class="n">curry</span><span class="p">(</span><span class="n">ingredient_form_callback</span><span class="p">,</span> <span class="bp">None</span><span class="p">))</span>
+</pre></div>
+</td></tr></table></div>
+<p>Once we&#8217;ve got that formset built, most of the rest of the form is straightforward and follows the standard form population, validation and save process. One slight wrinkle is before the formset can be saved we&#8217;ll need a recipe to link to it. For this reason, the view populates the formset, validates it, then repopulates it with the saved recipe:</p>
+<div class="highlight-python"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5</pre></div></td><td class="code"><div class="highlight"><pre>        <span class="n">form</span> <span class="o">=</span> <span class="n">RecipeForm</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">)</span>
+        <span class="n">formset</span> <span class="o">=</span> <span class="n">IngredientFormSet</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">is_valid</span><span class="p">()</span> <span class="ow">and</span> <span class="n">formset</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
+            <span class="n">recipe</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+            <span class="n">formset</span> <span class="o">=</span> <span class="n">IngredientFormSet</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">,</span> <span class="n">instance</span><span class="o">=</span><span class="n">recipe</span><span class="p">)</span>            
+</pre></div>
+</td></tr></table></div>
+<p>There&#8217;s little difference for the edit page and most of that should be familiar by now. Since we ended up using the <em>formfield_callback</em>, it&#8217;s easy to have these models editable in both <em>the admin</em> and <em>outside the admin</em>.</p>
+<table class="docutils footnote" frame="void" id="f1" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td><a class="reference external" href="http://docs.djangoproject.com/en/dev/topics/forms/formsets/#using-a-formset-in-views-and-templates">http://docs.djangoproject.com/en/dev/topics/forms/formsets/#using-a-formset-in-views-and-templates</a></td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="f2" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id2">[2]</a></td><td><a class="reference external" href="http://docs.djangoproject.com/en/dev/topics/forms/modelforms/#inline-formsets">http://docs.djangoproject.com/en/dev/topics/forms/modelforms/#inline-formsets</a></td></tr>
+</tbody>
+</table>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="recipe_71.html"
+                                  title="previous chapter">How to: Adding Javascript to the inline fields</a></p>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="_sources/recipe_72.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="recipe_71.html" title="How to: Adding Javascript to the inline fields"
+             >previous</a> |</li>
+        <li><a href="index.html">Clear Django v1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2009, Andy McKay.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.3.
+    </div>
+  </body>
+</html>

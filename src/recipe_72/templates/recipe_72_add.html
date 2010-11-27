@@ -1,0 +1,33 @@
+<html>
+<head>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+    <script type="text/javascript" src="/recipe_media/add_tabular_inline.js"></script>
+    <link rel="stylesheet" href="/recipe_media/screen.css" type="text/css" media="screen, projection" />
+    
+</head>
+<body>
+    <div class="container">  
+        <h2>Add new recipe</h2>
+        <form method="post">
+            <table>
+            {{ form }}
+            </table>
+            <hr>
+            <h3>Ingredients</h3>
+            <div class="inline-group">
+              <div class="tabular inline-related last-related">
+                  {{ formsets.management_form }}
+                  {% for formset in formsets.forms %}
+                  <table>
+                      {{ formset }}
+                  </table>
+                  {% endfor %}
+              </div>
+            </div>
+            <p class="success tools"><a href="#" class="add">Add another row</a></p>
+            <input type="submit" value="Add">
+        </form>
+
+     </div>
+</body>
+</html>

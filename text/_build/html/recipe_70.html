@@ -1,0 +1,281 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>How to: Setting up inline forms in contrib.admin &mdash; Clear Django v1.0 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '1.0',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Clear Django v1.0 documentation" href="index.html" />
+    <link rel="next" title="How to: Adding Ajax to the inline fields" href="recipe_71.html" />
+    <link rel="prev" title="Recipe 4: A first model, with fields" href="recipe_04.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="recipe_71.html" title="How to: Adding Ajax to the inline fields"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="recipe_04.html" title="Recipe 4: A first model, with fields"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Clear Django v1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="how-to-setting-up-inline-forms-in-contrib-admin">
+<h1>How to: Setting up inline forms in contrib.admin<a class="headerlink" href="#how-to-setting-up-inline-forms-in-contrib-admin" title="Permalink to this headline">¶</a></h1>
+<div class="topic">
+<p class="topic-title first">Recipe 70</p>
+<p>Run: <tt class="docutils literal"><span class="pre">python</span> <span class="pre">tools/configure.py</span> <span class="pre">-s</span> <span class="pre">70</span></tt> to install and run this recipe.</p>
+</div>
+<div class="sidebar">
+<p class="first sidebar-title">Sponsored Recipe</p>
+<p class="last">This recipe was sponsored by <a class="reference external" href="http://www.bluefountain.com/">Blue Fountain Systems Ltd</a>. Please contact <a class="reference external" href="http://www.clearwind.ca">Clearwind</a> if you&#8217;d like to sponsor a recipe.</p>
+</div>
+<p>Two different models are often used, one related to another. These are normally shown to users in the Django interface as two separate pages, often a few mouse clicks away. Instead of this, you can set up one form that contains the forms for the other model so they can be edited inline. It&#8217;s probably simpler to show a quick graphic to demonstrate this.</p>
+<img alt="_images/recipe_70.jpg" src="_images/recipe_70.jpg" />
+<p>In this case we&#8217;ve got a recipe, a &#8220;Cucumber-Rosemary Gin and Tonic&#8221; <a class="footnote-reference" href="#f1" id="id1">[1]</a> and some ingredients. Let&#8217;s take a look at the two models that setup this relationship:</p>
+<div class="highlight-python"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15</pre></div></td><td class="code"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span>
+
+<span class="k">class</span> <span class="nc">Recipe</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">)</span>
+    <span class="n">description</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">__unicode__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+
+<span class="k">class</span> <span class="nc">Ingredient</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">)</span>
+    <span class="n">amount</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">)</span>
+    
+    <span class="n">recipe</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Recipe</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s">&quot;recipe&quot;</span><span class="p">)</span>
+    <span class="n">other_recipe</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Recipe</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s">&quot;other_recipe&quot;</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+<p>The Ingredient model is slightly unusual because it has two keys pointing back to the recipe. The <em>recipe</em> field points to the Recipe model. However, some drinks may contain ingredients which are another recipe. There&#8217;s no point in covering how to make the recipe every time. Instead this is pointed to once and a reference made. Here it&#8217;s just a normal Gin and Tonic with some additions. This pointer to another recipe is the <em>other_recipe</em> field and is optional.</p>
+<p>So next we&#8217;ll need to register these models in the Django admin. We&#8217;ll do this in the usual way. For example, in <em>admins.py</em> we&#8217;ll have:</p>
+<div class="highlight-python"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2</pre></div></td><td class="code"><div class="highlight"><pre><span class="n">admin</span><span class="o">.</span><span class="n">site</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">Recipe</span><span class="p">,</span> <span class="n">RecipeAdmin</span><span class="p">)</span>
+<span class="n">admin</span><span class="o">.</span><span class="n">site</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">Ingredient</span><span class="p">,</span> <span class="n">IngredientAdmin</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+<p>The admin registration for a Recipe is a little different because we need to have this show the ingredient inline. Here we&#8217;ll use the contrib.admin inlines functionality <a class="footnote-reference" href="#f2" id="id2">[2]</a>. This requires modifying the <em>admins.py</em> and registering the Recipe slightly differently. Next we&#8217;ll use the <em>inlines</em> attribute on Recipes. This tells the admin interface what inline classes to use. Multiple inlines can be defined but in our case we only need one.</p>
+<div class="highlight-python"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">class</span> <span class="nc">RecipeAdmin</span><span class="p">(</span><span class="n">admin</span><span class="o">.</span><span class="n">ModelAdmin</span><span class="p">):</span>
+    <span class="n">inlines</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">IngredientInline</span>
+    <span class="p">]</span>
+    <span class="n">list_display</span> <span class="o">=</span> <span class="p">(</span><span class="s">&quot;name&quot;</span><span class="p">,)</span>
+</pre></div>
+</td></tr></table></div>
+<p>The <em>IngredientInline</em> class referred to is a class used to define what will be shown. This looks like:</p>
+<div class="highlight-python"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">class</span> <span class="nc">IngredientInline</span><span class="p">(</span><span class="n">admin</span><span class="o">.</span><span class="n">TabularInline</span><span class="p">):</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">Ingredient</span>
+    <span class="n">fk_name</span> <span class="o">=</span> <span class="s">&quot;recipe&quot;</span>
+</pre></div>
+</td></tr></table></div>
+<p>Now the code should be ready to run and play with.  We&#8217;ve specified a <em>fk_name</em> on line 3 of the <em>IngredientInline</em>. That&#8217;s the foreign key that contains the relationship back to the recipe. There&#8217;s no reason for this to be set in a form since Django will automatically set this to the recipe you are adding or editing. The explicit definition of <em>fk_name</em> is only necessary in cases where there are <strong>more than one</strong> foreign key relationships back to the parent model <a class="footnote-reference" href="#f3" id="id3">[3]</a>.</p>
+<p>I&#8217;d like to make one additional optimization to this form. We have a recipe &#8220;Cucumber-Rosemary Gin and Tonic&#8221; that contains a reference to another recipe, &#8220;Gin and Tonic&#8221;. But it could never contain a reference to itself. An ingredient of &#8220;Cucumber-Rosemary Gin and Tonic&#8221; cannot ever be itself. Recursion is cool for acronyms of open source projects but less cool in the world of cocktails.</p>
+<p>If we know the current object, we can use the queryset api to return all recipes excluding all the current object. If the current object is <em>instance</em> that would look like this:</p>
+<div class="highlight-python"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre> <span class="n">Recipe</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">exclude</span><span class="p">(</span><span class="n">pk</span><span class="o">=</span><span class="n">instance</span><span class="o">.</span><span class="n">pk</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+<p>The harder part is altering the form to do this. There a few different approaches and one is to create a custom form <a class="footnote-reference" href="#f4" id="id4">[4]</a>. I chose a slightly different way because this allows us to work the same way with inlines outside of the admin in later recipes. When the admin creates a formset, it calls a method called <em>get_formset</em> We can pass a number of parameters into that. One of them is a <em>formfield_callback</em>.</p>
+<p>When each form field is rendered, this method will be called so that we can alter each field in the form. Here&#8217;s how that callback would look given an instance. It&#8217;s called for each and every field so we need to check the field name before altering:</p>
+<div class="highlight-python"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7</pre></div></td><td class="code"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">models</span> <span class="kn">import</span> <span class="n">Recipe</span>
+
+<span class="k">def</span> <span class="nf">ingredient_form_callback</span><span class="p">(</span><span class="n">instance</span><span class="p">,</span> <span class="n">field</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">field</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s">&quot;other_recipe&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">instance</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">field</span><span class="o">.</span><span class="n">formfield</span><span class="p">(</span><span class="n">queryset</span><span class="o">=</span><span class="n">Recipe</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">exclude</span><span class="p">(</span><span class="n">pk</span><span class="o">=</span><span class="n">instance</span><span class="o">.</span><span class="n">pk</span><span class="p">),</span> <span class="o">**</span><span class="n">kw</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">field</span><span class="o">.</span><span class="n">formfield</span><span class="p">(</span><span class="o">**</span><span class="n">kw</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+<p>We&#8217;re almost there but there&#8217;s one last thing. The instance isn&#8217;t normally passed to the field. We need to add the instance. This can be done quickly and easily by using the django curry method <a class="footnote-reference" href="#f5" id="id5">[5]</a>. The entire <em>admin.py</em> will look like this:</p>
+<div class="highlight-python"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25</pre></div></td><td class="code"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">django.contrib</span> <span class="kn">import</span> <span class="n">admin</span>
+<span class="kn">from</span> <span class="nn">django.utils.functional</span> <span class="kn">import</span> <span class="n">curry</span>
+
+<span class="kn">from</span> <span class="nn">models</span> <span class="kn">import</span> <span class="n">Recipe</span><span class="p">,</span> <span class="n">Ingredient</span>
+<span class="kn">from</span> <span class="nn">forms</span> <span class="kn">import</span> <span class="n">ingredient_form_callback</span>
+    
+<span class="k">class</span> <span class="nc">IngredientInline</span><span class="p">(</span><span class="n">admin</span><span class="o">.</span><span class="n">TabularInline</span><span class="p">):</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">Ingredient</span>
+    <span class="n">fk_name</span> <span class="o">=</span> <span class="s">&quot;recipe&quot;</span>
+
+    <span class="k">def</span> <span class="nf">get_formset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">obj</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s">&quot;formfield_callback&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">curry</span><span class="p">(</span><span class="n">ingredient_form_callback</span><span class="p">,</span> <span class="n">obj</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">IngredientInline</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">get_formset</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    
+<span class="k">class</span> <span class="nc">IngredientAdmin</span><span class="p">(</span><span class="n">admin</span><span class="o">.</span><span class="n">ModelAdmin</span><span class="p">):</span>
+    <span class="k">pass</span>
+        
+<span class="k">class</span> <span class="nc">RecipeAdmin</span><span class="p">(</span><span class="n">admin</span><span class="o">.</span><span class="n">ModelAdmin</span><span class="p">):</span>
+    <span class="n">inlines</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">IngredientInline</span>
+    <span class="p">]</span>
+    <span class="n">list_display</span> <span class="o">=</span> <span class="p">(</span><span class="s">&quot;name&quot;</span><span class="p">,)</span>
+
+<span class="n">admin</span><span class="o">.</span><span class="n">site</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">Recipe</span><span class="p">,</span> <span class="n">RecipeAdmin</span><span class="p">)</span>
+<span class="n">admin</span><span class="o">.</span><span class="n">site</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">Ingredient</span><span class="p">,</span> <span class="n">IngredientAdmin</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+<p>The end result is pretty cool. We have a Recipe form with inlines below it and a custom form on those inline forms to limit the valid data. As for the virtues of these drinks, feel free to take part in some exhaustive research.</p>
+<table class="docutils footnote" frame="void" id="f1" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td><a class="reference external" href="http://www.drinksmixer.com/drinkf164e99.html">http://www.drinksmixer.com/drinkf164e99.html</a></td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="f2" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id2">[2]</a></td><td><a class="reference external" href="http://docs.djangoproject.com/en/dev/ref/contrib/admin/#inlinemodeladmin-objects">http://docs.djangoproject.com/en/dev/ref/contrib/admin/#inlinemodeladmin-objects</a></td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="f3" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id3">[3]</a></td><td><a class="reference external" href="http://docs.djangoproject.com/en/dev/ref/contrib/admin/#fk-name">http://docs.djangoproject.com/en/dev/ref/contrib/admin/#fk-name</a></td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="f4" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id4">[4]</a></td><td><a class="reference external" href="http://www.artfulcode.net/articles/runtime-choicefield-filtering-in-djangos-admin/">http://www.artfulcode.net/articles/runtime-choicefield-filtering-in-djangos-admin/</a></td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="f5" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id5">[5]</a></td><td><a class="reference external" href="http://code.djangoproject.com/browser/django/trunk/django/utils/functional.py#L53">http://code.djangoproject.com/browser/django/trunk/django/utils/functional.py#L53</a></td></tr>
+</tbody>
+</table>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="recipe_04.html"
+                                  title="previous chapter">Recipe 4: A first model, with fields</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="recipe_71.html"
+                                  title="next chapter">How to: Adding Ajax to the inline fields</a></p>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="_sources/recipe_70.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="recipe_71.html" title="How to: Adding Ajax to the inline fields"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="recipe_04.html" title="Recipe 4: A first model, with fields"
+             >previous</a> |</li>
+        <li><a href="index.html">Clear Django v1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2009, Andy McKay.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.3.
+    </div>
+  </body>
+</html>

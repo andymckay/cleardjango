@@ -1,0 +1,157 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Recipe 3: A first model &mdash; Clear Django v1.0 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '1.0',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Clear Django v1.0 documentation" href="index.html" />
+    <link rel="next" title="Recipe 4: A first model, with fields" href="recipe_04.html" />
+    <link rel="prev" title="Recipe 2: Hello World via Python" href="recipe_02.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="recipe_04.html" title="Recipe 4: A first model, with fields"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="recipe_02.html" title="Recipe 2: Hello World via Python"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Clear Django v1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="recipe-3-a-first-model">
+<h1>Recipe 3: A first model<a class="headerlink" href="#recipe-3-a-first-model" title="Permalink to this headline">¶</a></h1>
+<div class="topic">
+<p class="topic-title first">Recipe 3</p>
+<p>Run: <tt class="docutils literal"><span class="pre">python</span> <span class="pre">tools/configure.py</span> <span class="pre">-s</span> <span class="pre">3</span></tt> to install and run this recipe.</p>
+</div>
+<p>Of course writing something that returns a bit of Python to the user is all very well, but really we need something that reads and writes to a database. For this Django has models. Models are classes in Python that explicitly declare what data is persisted to the database.</p>
+<p>A model lives in a <em>models.py</em> file <a class="footnote-reference" href="#f1" id="id1">[1]</a>. It inherits from <em>django.db.models</em> and will look something like this:</p>
+<div class="highlight-python"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4</pre></div></td><td class="code"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span>
+
+<span class="k">class</span> <span class="nc">Todo</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="k">pass</span>
+</pre></div>
+</td></tr></table></div>
+<p>The name of this model is called <em>Todo</em> and it has no fields at this time. This means it doesn&#8217;t have any custom data it. Perhaps &#8220;Chocolate Teapot&#8221; <a class="footnote-reference" href="#f2" id="id2">[2]</a> would be a more useful name for this model.</p>
+<p>When you install this model, either via the recipe command or via syncdb, Django will create a table called <em>recipe_03_todo</em>. There&#8217;s no need to write any SQL to create tables or columns, Django has done all that for you. There are two easy ways to easy what Django has done for you from the <em>manage.py</em> command. A very useful command is sqlall which shows you the SQL that was used to create the tables.</p>
+<p>For this recipe it looks like this:</p>
+<div class="highlight-sql"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">BEGIN</span><span class="p">;</span>
+<span class="k">CREATE</span> <span class="k">TABLE</span> <span class="ss">&quot;recipe_03_todo&quot;</span> <span class="p">(</span>
+    <span class="ss">&quot;id&quot;</span> <span class="nb">integer</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">PRIMARY</span> <span class="k">KEY</span>
+<span class="p">)</span>
+<span class="p">;</span>
+<span class="k">COMMIT</span><span class="p">;</span>
+</pre></div>
+</td></tr></table></div>
+<p>You&#8217;ll note that it has created and <em>id</em> column for you. This is the primary key for the table. It doesn&#8217;t have to be <em>id</em>, but if you don&#8217;t specify it on a field Django will add it in for you <a class="footnote-reference" href="#f3" id="id3">[3]</a>.</p>
+<p>This then is the simplest model you can have. Next we&#8217;ll add in some fields.</p>
+<table class="docutils footnote" frame="void" id="f1" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td>It doesn&#8217;t have to be a file, it could be a directory called models. Inside that directory there has to be an <em>__init__.py</em> file that subsequently can import multiple other Python modules. As long as Python has something called models it can import, it&#8217;s happy.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="f2" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id2">[2]</a></td><td>If you are not British, you might need to Google this term.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="f3" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id3">[3]</a></td><td><a class="reference external" href="http://docs.djangoproject.com/en/dev/ref/models/fields/#primary-key">http://docs.djangoproject.com/en/dev/ref/models/fields/#primary-key</a></td></tr>
+</tbody>
+</table>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="recipe_02.html"
+                                  title="previous chapter">Recipe 2: Hello World via Python</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="recipe_04.html"
+                                  title="next chapter">Recipe 4: A first model, with fields</a></p>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="_sources/recipe_03.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="recipe_04.html" title="Recipe 4: A first model, with fields"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="recipe_02.html" title="Recipe 2: Hello World via Python"
+             >previous</a> |</li>
+        <li><a href="index.html">Clear Django v1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2009, Andy McKay.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.3.
+    </div>
+  </body>
+</html>
