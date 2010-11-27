@@ -3,7 +3,7 @@ Source
 
 All the source for the book is available at the following URL::
 
-    http://code.google.com/p/cleardjango/source/browse/#svn/trunk/src
+    https://github.com/andymckay/cleardjango
     
 To check it out, run the following command::
 
