@@ -51,27 +51,13 @@ For example:
 
     todo = Todo()
     todo.text = "Get some milk"
-    todo.timestamp = datetime.now()
     todo.save()
    
 The assignment of values to the object matches the fields. If the field is called *text* then you assign to *text* (line 4). Calling save performs all the necessary SQL inserts into the database.
 
 In this model, we've set a default value for *completed* to be *False*. So we didn't bother assigning the value for *completed*.
 
-But we did set one for *timestamp* [#f3]_. This is a required field and if you don't assign it, for example:
-
-.. code-block:: python
-    :linenos:
-    
-    todo = Todo()
-    todo.text = "Get some milk"
-    todo.save()
-
-You'll get an error::
-    
-      File "/usr/lib/python2.5/site-packages/django/db/backends/sqlite3/base.py", line 193, in execute
-        return Database.Cursor.execute(self, query, params)
-    IntegrityError: recipe_04_todo.timestamp may not be NULL
+For *timestamp* [#f3]_ we set *auto_now_add* [#f4]_. By setting this parameter, when a *Todo* is created, it sets the timestamp to the current time.
 
 If at this point some of these concepts like creating objects are feeling a bit rusty, now is a good time to read up on Python.
 
@@ -80,3 +66,4 @@ At this point nothing is visible in the browser, we haven't hooked anything up.
 .. [#f1] http://docs.djangoproject.com/en/dev/ref/models/fields/
 .. [#f2] We won't be doing this every time.
 .. [#f3] http://docs.python.org/library/datetime.html#module-datetime
+.. [#f4] http://docs.djangoproject.com/en/dev/ref/models/fields/#django.db.models.DateField.auto_now_add
